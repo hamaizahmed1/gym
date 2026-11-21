@@ -3,8 +3,8 @@
    2) Run supabase-schema.sql in the Supabase SQL Editor.
    Never put a service_role key in this file.
 */
-const SUPABASE_URL = "";
-const SUPABASE_PUBLISHABLE_KEY = "";
+const SUPABASE_URL = "https://jlaiiancdcpeofsdrkez.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_4FtDwspCBK3ajCJgPx1Kjg_2cU8wfJp";
 const HAS_SUPABASE = !!(SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY && window.supabase);
 const sb = HAS_SUPABASE ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY) : null;
 
