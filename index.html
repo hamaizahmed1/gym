@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d12">
+  <meta name="description" content="LiftLog — personal workout tracker">
+  <title>LiftLog — Train with purpose</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" data-page="dashboard"><span class="brand-mark">L</span><span>lift<span class="brand-light">log</span></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav">
+        <button class="nav-item active" data-page="dashboard"><span>◫</span> Dashboard</button>
+        <button class="nav-item" data-page="workouts"><span>▤</span> Workouts</button>
+        <button class="nav-item" data-page="exercises"><span>⌕</span> Exercise library</button>
+        <button class="nav-item" data-page="history"><span>◷</span> History</button>
+        <button class="nav-item" data-page="progress"><span>↗</span> Progress</button>
+        <button class="nav-item" data-page="body"><span>◎</span> Body tracking</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sync-pill"><span class="status-dot"></span><span id="syncLabel">Local mode</span></div>
+        <button class="nav-item" data-page="settings"><span>⚙</span> Settings</button>
+        <div class="user-mini"><div class="avatar">A</div><div><strong id="userLabel">Hamaiz</strong><small>Shared preset profile</small></div></div>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar">
+        <div><p class="eyebrow" id="todayLabel">TRAINING JOURNAL</p><h1 id="pageTitle">Dashboard</h1></div>
+        <div class="top-actions"><label class="profile-picker-label">PROFILE <select id="profileSelect" aria-label="Active profile"><option>Hamaiz</option><option>Khizar</option></select></label><span class="date-chip" id="dateChip"></span><button class="icon-btn" id="themeBtn" title="Toggle theme">☼</button><button class="btn primary" id="topStartBtn">＋ Start workout</button></div>
+      </header>
+      <section class="page active" id="page-dashboard">
+        <div class="welcome-row"><div><p class="eyebrow accent-text">KEEP SHOWING UP</p><h2>Build strength.<br><span class="muted">Track every rep.</span></h2><p class="muted">Small improvements add up. Your next session is one step forward.</p></div><div class="welcome-art"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="art-number">01<span> / REP</span></div></div></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-head">TOTAL WORKOUTS <span>↗</span></div><strong id="statWorkouts">0</strong><small class="muted">Sessions completed</small></article>
+          <article class="stat-card"><div class="stat-head">TRAINING TIME <span>◷</span></div><strong id="statTime">0h</strong><small class="muted">Total logged time</small></article>
+          <article class="stat-card"><div class="stat-head">WORKING SETS <span>▥</span></div><strong id="statSets">0</strong><small class="muted">Completed sets</small></article>
+          <article class="stat-card"><div class="stat-head">BODYWEIGHT <span>◎</span></div><strong id="statWeight">—</strong><small class="muted">Latest entry</small></article>
+        </div>
+        <div class="content-grid"><article class="panel"><div class="panel-heading"><div><p class="eyebrow">YOUR PLAN</p><h3>This week's split</h3></div><button class="text-btn" data-goto="workouts">View all →</button></div><div id="weekPlan" class="week-plan"></div></article><article class="panel"><div class="panel-heading"><div><p class="eyebrow">RECENT ACTIVITY</p><h3>Latest sessions</h3></div><button class="text-btn" data-goto="history">History →</button></div><div id="recentSessions" class="recent-list"><div class="empty-state">Your completed workouts will appear here.</div></div></article></div>
+        <article class="panel tip-panel"><div class="tip-icon">✳</div><div><p class="eyebrow accent-text">TRAINING NOTE</p><strong id="coachTip">Consistency beats perfection.</strong><p class="muted">Use your log to make gradual, repeatable progress. Recommendations are suggestions, not a substitute for good technique.</p></div></article>
+      </section>
+      <section class="page" id="page-workouts"><div class="section-intro"><div><p class="muted">Your five-day routine, ready when you are.</p></div><button class="btn primary" id="newTemplateBtn">＋ New template</button></div><div id="templateGrid" class="template-grid"></div></section>
+      <section class="page" id="page-exercises"><div class="section-intro"><p class="muted">Browse movements and find the right exercise for your setup.</p><button class="btn secondary" id="addExerciseBtn">＋ Custom exercise</button></div><div class="filter-row"><input id="exerciseSearch" class="search-input" placeholder="Search exercises..."><select id="muscleFilter"><option value="">All muscle groups</option><option>Chest</option><option>Back</option><option>Shoulders</option><option>Biceps</option><option>Triceps</option><option>Quadriceps</option><option>Hamstrings</option><option>Glutes</option><option>Calves</option><option>Abs</option></select></div><div id="exerciseGrid" class="exercise-grid"></div></section>
+      <section class="page" id="page-history"><div class="section-intro"><p class="muted">Every session is part of the journey.</p><button class="btn secondary" id="exportBtn">↓ Export CSV</button></div><div id="historyList" class="history-list"></div></section>
+      <section class="page" id="page-progress"><div class="stats-grid two-stats"><article class="stat-card"><div class="stat-head">TOTAL VOLUME <span>↗</span></div><strong id="totalVolume">0 kg</strong><small class="muted">Weight × reps across logged sets</small></article><article class="stat-card"><div class="stat-head">BEST RECENT SET <span>★</span></div><strong id="bestSet">—</strong><small class="muted">Highest logged load</small></article></div><article class="panel"><div class="panel-heading"><div><p class="eyebrow">BODYWEIGHT TREND</p><h3>Recent measurements</h3></div></div><div id="weightChart" class="simple-chart"><div class="empty-state">Add bodyweight entries to see your trend.</div></div></article><article class="panel"><div class="panel-heading"><div><p class="eyebrow">STRENGTH LOG</p><h3>Exercise performance</h3></div></div><div id="exerciseProgress" class="recent-list"></div></article></section>
+      <section class="page" id="page-body"><div class="section-intro"><p class="muted">Track trends over time, not day-to-day fluctuations.</p></div><div class="body-entry-grid"><article class="panel"><p class="eyebrow">NEW MEASUREMENT</p><h3>Log your bodyweight</h3><form id="bodyForm" class="stack-form"><label>Weight (kg)<input id="bodyWeight" type="number" min="1" max="500" step="0.1" required placeholder="e.g. 82.5"></label><label>Date<input id="bodyDate" type="date" required></label><button class="btn primary" type="submit">Save measurement</button></form></article><article class="panel"><p class="eyebrow">LATEST</p><h3>Bodyweight</h3><div class="big-measure" id="bodyLatest">—<small>kg</small></div><p class="muted" id="bodyChange">No measurements yet.</p></article></div><article class="panel"><div class="panel-heading"><div><p class="eyebrow">MEASUREMENT LOG</p><h3>History</h3></div></div><div id="bodyHistory" class="recent-list"></div></article></section>
+      <section class="page" id="page-settings"><article class="panel settings-panel"><p class="eyebrow">PREFERENCES</p><h3>Training setup</h3><form id="settingsForm" class="settings-grid"><label>Experience<select id="experience"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select></label><label>Primary goal<select id="goal"><option>Fat loss</option><option>Muscle gain</option><option>Strength</option><option>General fitness</option></select></label><label>Weight unit<select id="unit"><option value="kg">Kilograms (kg)</option><option value="lb">Pounds (lb)</option></select></label><label>Default rest timer (seconds)<input id="restSeconds" type="number" min="15" max="600" value="90"></label><label>Training location<select id="location"><option>Work</option><option>Home</option><option>Gym</option></select></label><label>Available dumbbells<input id="equipment" value="8 kg at work, 10 kg at home"></label><div class="settings-full"><button class="btn primary" type="submit">Save settings</button></div></form></article><article class="panel"><p class="eyebrow">SHARED PROFILES & SYNC</p><h3>Cloud configuration</h3><p class="muted">LiftLog uses two shared preset profiles. No email, password or account creation is required. Run the supplied supabase-schema.sql in your Supabase SQL Editor to enable cross-device sync.</p><p class="tiny muted" id="cloudStatus">Supabase not configured.</p><p class="tiny muted">Privacy: anyone with access to this public app can select either shared profile and modify its data.</p></article></section>
+    </main>
+  </div>
+  <nav class="mobile-nav"><button class="active" data-page="dashboard"><span>◫</span>Home</button><button data-page="workouts"><span>▤</span>Plan</button><button data-page="exercises"><span>⌕</span>Exercises</button><button data-page="history"><span>◷</span>History</button><button data-page="settings"><span>⚙</span>Settings</button></nav>
+  <div id="workoutOverlay" class="overlay hidden"><div class="workout-modal"><header class="workout-header"><div><p class="eyebrow accent-text">SESSION IN PROGRESS</p><h2 id="activeWorkoutName">Workout</h2><span class="muted" id="workoutElapsed">00:00</span></div><button class="icon-btn" id="closeWorkout" title="Minimise workout">×</button></header><div class="workout-progress"><span id="workoutProgressBar"></span></div><div class="timer-strip"><div><small>REST TIMER</small><strong id="timerDisplay">01:30</strong></div><div class="timer-actions"><button class="btn secondary small" id="timerPause">Pause</button><button class="btn secondary small" id="timerAdd">+15s</button><button class="btn secondary small" id="timerSkip">Skip</button></div></div><div id="activeExercises" class="active-exercises"></div><div class="workout-footer"><button class="btn secondary" id="addWorkoutExercise">＋ Add exercise</button><button class="btn primary" id="finishWorkout">Finish workout</button></div></div></div>
+  <div id="dialogOverlay" class="overlay hidden"><div class="dialog-card"><button class="icon-btn dialog-close" id="dialogClose">×</button><div id="dialogContent"></div></div></div><div id="toast" class="toast"></div>
+</body>
+</html>
